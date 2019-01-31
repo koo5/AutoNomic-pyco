@@ -1,0 +1,91 @@
+#Math
+@keywords a .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+kb
+#digits
+:a0 a :aNat.
+:a1 a :aNat.
+:a2 a :aNat.
+:a3 a :aNat.
+:a4 a :aNat.
+:a5 a :aNat.
+:a6 a :aNat.
+:a7 a :aNat.
+:a8 a :aNat.
+:a9 a :aNat.
+ 
+#order
+:a1 :has_prev :a0.
+:a2 :has_prev :a1.
+:a3 :has_prev :a2.
+:a4 :has_prev :a3.
+:a5 :has_prev :a4
+:a6 :has_prev :a5.
+:a7 :has_prev :a6.
+:a8 :has_prev :a7.
+:a9 :has_prev :a8.
+ 
+ 
+#check if digit ?x is greater than digit ?y
+{ ?x :has_prev ?y . } => { ?x :digit_is_gt_than ?y . } .
+{ ?x :digit_is_gt_than ?y . ?y :digit_is_gt_than ?z . } => { ?x :digit_is_gt_than ?z . } .
+
+
+#less-than.
+{ ?y :has_prev ?x . } => {?x :digit_is_less_than ?y . } .
+{ ?x :digit_is_less_than ?y. ?y :digit_is_less_than ?z. } => {?x :digit_is_less_than ?z}. 
+ 
+#take a list and check if it's all 0's
+() isallzeroes t.
+{?r rdf:first 0. ?r rdf:rest ?q. ?q isallzeroes t.} => {?r isallzeroes t}.
+ 
+{?r rdf:first ?x. ?x :digit_is_gt_than 0.} => {?r isallzeroes f}.
+{?x rdf:first 0. ?r rdf:rest ?q. ?q isallzeroes f.} => {?r isallzeroes f}.
+ 
+ 
+#listappend: this forces an (?a . ?b) list in the subject to bind to something in the object.
+() append ().
+{?x rdf:first ?f.} => {?x append ?x}.
+ 
+ 
+#take a list and return one with all 9's
+() makeallnines ().
+{?x rdf:first ?f. ?x rdf:rest ().} => {?x makeallnines (9)}.
+{?x rdf:first ?f. ?x rdf:rest ?r. ?r rdf:first ?q. ?r makeallnines ?z. (9 ?z) append ?y} => {?x makeallnines ?y}.
+ 
+ 
+#normalize input: trim leading 0's and fail if it contains any items that aren't nats.
+{?x rdf:first ?f. ?f a Nat. ?r normalize2 ?r.} => {?x normalize2 ?x}.
+{?x rdf:first ?f. ?f :digit_is_gt_than 0. ?x rdf:rest ?r. ?r normalize2 ?r} => {?x normalize ?x}.
+{?x rdf:first 0. ?x rdf:rest ?r. ?r normalize ?y} => {?x normalize ?y}.
+ 
+ 
+#get previous number
+{?x rdf:rest ?r. ?r isallzeroes t. ?x rdf:first ?f. ?f :has_prev ?:has_prev. ?r makeallnines ?nines. (?:has_prev ?nines) append ?y.} => {?x succ2 ?y}.
+{?x rdf:rest ?r. ?r isallzeroes f. ?x rdf:first ?f. ?r succ2 ?p. (?f ?p) append ?y} => {?x succ2 ?y}.
+ 
+ 
+{?x rdf:rest ?r. ?r isallzeroes t. ?x rdf:first ?f. ?f :digit_is_gt_than 1. ?f :has_prev ?:has_prev. ?r makeallnines ?nines. (?:has_prev ?nines) append ?y.} => {?x succ ?y}.
+{?x rdf:rest ?r. ?r isallzeroes t. ?r rdf:first ?dummy. ?x rdf:first 1. ?r makeallnines ?y} => {?x succ ?y}.
+{?x rdf:rest ?r. ?r isallzeroes f. ?x rdf:first ?f. ?r succ2 ?p. (?f ?p) append ?y.} => {?x succ ?y}.
+ 
+ 
+ 
+#countdown
+() countdown2 done.
+(0) countdown2 done.
+(1) succ (0).
+{?x succ ?y. ?y countdown2 ?z} => {?x countdown2 ?z}.
+ 
+#don't start the countdown if we can't normalize the input, otherwise proceed
+#{?x normalize ?z. ?z countdown2 ?y.} => {?x countdown ?y}.
+{?z countdown2 ?y} => {?x countdown ?y}.
+
+fin.
+ 
+query
+
+(0) countdown done.
+
+fin.

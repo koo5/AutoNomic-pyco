@@ -1,0 +1,10 @@
+kb
+(:a1 ?A  :a3) :foo :bar.
+fin.
+query
+(:a1 :a2 :a3) :foo :bar.
+fin.
+shouldbe
+(:a1 :a2 :a3) :foo :bar.
+fin.
+thatsall

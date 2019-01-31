@@ -1,0 +1,8 @@
+kb
+{?a :b :c. :lit :b :c. :a :d :c} <= {:d :e ?a. :g :h :i}.
+:d :e :d.
+:g :h :i.
+fin.
+query
+:d :b :c.
+fin.

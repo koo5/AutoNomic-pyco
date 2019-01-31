@@ -1,0 +1,196 @@
+@keywords a .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix string_builtins: <http://loworbit.now.im/rdf/string_builtins#>.
+@prefix tau_builtins: <http://loworbit.now.im/rdf/tau_builtins#>.
+
+@prefix : <file://>.
+
+
+kb
+
+
+?builtins_aware_list rdf:first ?ITEM; rdf:rest ?REST.
+
+
+
+{
+  ?LIST rdf:first ?FIRST .
+} => {
+  ?FIRST :memberof ?LIST .
+} .
+{
+  ?R1 rdf:rest ?R .
+  ?X :memberof ?R .
+} => { 
+  ?X :memberof ?R1 .
+} .
+
+
+#data declarations
+{?x a :statement.  ?x :lhs ?Y. ?x :rhs ?Z} <= {}.
+{?x a :newline} <= {}.
+
+
+
+{?x a :letter} <= { "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" string_builtins:is_split ?l. ?x :memberof ?l.}.
+{?x a :number} <= { "0123456789" string_builtins:is_split ?l. ?x :memberof ?l.}.
+{?x a :alphanum} <= {?x a :letter}.
+{?x a :alphanum} <= {?x a :number}.
+
+
+
+{?x0 :statement (?rest ?ast)} <= {
+	?x0 :identifier (?rest ?name).
+	?ast a :statement. ?ast :lhs ?name.
+}.
+
+{?x0 :identifier (?rest ?name)} <= {
+	?x0 rdf:first ?f. ?f a :letter.
+	?name rdf:first ?f. ?name rdf:rest ?rest_of_name.
+	?x0 rdf:rest ?r. ?r :rest_of_name (?rest ?rest_of_name).
+}.
+
+
+{?x0 :rest_of_name (?x0 rdf:nil)} <= {
+}.
+
+{?x0 :rest_of_name (?rest ?name)} <= {
+	?x0 rdf:first ?f. ?f a :alphanum. :dummy tau_builtins:output "rest of name:". :dummy tau_builtins:output ?f.
+	?name rdf:first ?f. ?name rdf:rest ?name_rest.
+	?x0 rdf:rest ?r. ?r :rest_of_name (?rest ?name_rest).
+}.
+
+{?x0 :newline ?rest} <= {
+	?x0 rdf:first ?f.
+	:dummy tau_builtins:output "newline?:".
+	:dummy tau_builtins:output ?f.
+	?x0 rdf:first "\n". ?x0 rdf:rest ?rest.
+	:dummy tau_builtins:output "yes".
+
+}.
+
+#statement_lines --> statement_line, statement_lines.
+{?x0 :statement_lines (?rest ?items)} <= {
+	?items rdf:first ?item. ?items rdf:rest ?items_rest.
+	?x0 :statement_line (?after_line ?item).
+	?after_line :statement_lines (?rest ?items_rest).
+}.
+
+#statement_lines --> .
+{?x0 :statement_lines (?x0 rdf:nil)} <= {
+}.
+
+#statement_line --> newline.
+{?x0 :statement_line (?rest ?item)} <= {
+	?x0 :newline ?rest.
+	?item a :newline.
+}.
+
+#statement_line --> statement, newline.
+{?x0 :statement_line (?rest ?item)} <= {
+	?x0 :statement (?after_statement ?item).
+	?after_statement :newline ?rest.
+}.
+
+
+fin.
+
+
+
+#0
+query
+("c" "e" """
+""") :statement_lines (rdf:nil ?x).
+fin.
+shouldbetrue
+
+#1
+query
+("c" "e" """
+""") :statement_lines (rdf:nil (?s0)). ?s0 :lhs ("c" "e").
+fin.
+shouldbetrue
+
+#2
+query
+"""ce
+""" string_builtins:is_split ?l. 
+?l :statement_lines (rdf:nil (?s0)). ?s0 :lhs ("c" "e").
+fin.
+shouldbetrue
+
+#3
+query
+"""ce
+""" string_builtins:is_split ?l. 
+?l :statement_lines (rdf:nil (?s0)). 
+:dummy tau_builtins:output "?s0".
+:dummy tau_builtins:output ?s0.
+?s0 :lhs ?s0lhs. 
+:dummy tau_builtins:output "?s0lhs".
+:dummy tau_builtins:output ?s0lhs.
+?s0lhs string_builtins:is_joined ?ce.
+fin.
+shouldbetrue
+
+
+#4
+query
+"""
+sentence
+dthtd
+hdhtdhtd222
+
+
+""" string_builtins:is_split ?l. 
+?l :statement_lines (rdf:nil ?ast). 
+:dummy tau_builtins:output ?ast.
+fin.
+shouldbetrue
+
+#5
+query
+"""
+sentence
+noun_phrase
+verb_phrase
+verb_phrase
+
+determiner
+determiner
+""" string_builtins:is_split ?l. 
+?l :statement_lines (rdf:nil ?ast). 
+:dummy tau_builtins:output ?ast.
+fin.
+shouldbetrue
+
+
+query
+"""
+sentence
+noun_phrase
+verb_phrase
+verb_phrase
+
+determiner
+determiner
+""" string_builtins:is_split ?l. 
+?l :statement_lines (rdf:nil (?nl0 ?s1 ?s2 ?s3 ?s4 ?nl5 ?s6 ?s7)). 
+?s1 :lhs ?s1lhs. ?s1lhs string_builtins:is_joined "sentence".
+fin.
+shouldbetrue
+
+
+
+query
+"7" a :letter.
+fin.
+shouldbe
+fin.
+
+
+query
+"f" a :letter. "a" a :letter.
+fin.
+shouldbetrue
+

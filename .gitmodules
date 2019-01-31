@@ -1,0 +1,3 @@
+[submodule "tests/n3-dev-testcases"]
+	path = tests/n3-dev-testcases
+	url = git@github.com:koo5/n3-dev-testcases.git

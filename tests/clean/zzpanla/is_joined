@@ -1,0 +1,14 @@
+@keywords a .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix string_builtins: <http://loworbit.now.im/rdf/string_builtins#>.
+
+kb
+?builtins_aware_list rdf:first ?ITEM; rdf:rest ?REST.
+
+fin.
+#0
+query
+("T" "i" "m") string_builtins:is_joined ?s.
+fin.
+shouldbetrue
+

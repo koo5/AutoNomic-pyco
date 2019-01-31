@@ -1,0 +1,68 @@
+
+*autosave
+*pyc
+x
+y
+pyin/__pycache__/
+kb_for_external.nq
+kb_for_external_raw.n3
+*gv
+*svg
+dummy
+query_for_external.nq
+query_for_external_raw.n3
+
+
+runs
+venv
+cpython3
+pypy2
+*.orig
+.cproject
+.project
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+tags
+testJsonLdUrl
+tau
+
+build
+CMakeFiles
+scan
+
+pyco_visualization/trace.js
+2018*
+pyco
+pyco_out.cpp
+.settings/
+pyin/.ipynb_checkpoints/
+pyin/.idea/workspace.xml
+callgrind.out*
