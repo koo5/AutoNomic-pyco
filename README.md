@@ -19,26 +19,28 @@ https://github.com/unisonweb/unison
 
 
 ### pyin/pyco
-python3 is best bet, it might work with 2 with some tweaks
+the AutoNomic-pyco repo currently serves as a sort of stable branch, while development happens in "univar".
+for running it, python3 is best bet, it might work with 2 with some tweaks
+```
 sudo apt install python3 python3-dev virtualenv clang
-
+```
 #### on ubuntu 16.4
+```
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get install gcc-8 libc++abi-8-dev
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 sudo mcedit /etc/apt/sources.list
 sudo apt-get install clang-8
-
+```
 #### to set up pyco, it's best to use virtualenv:
+```
 virtualenv -p python3 cpython3
 . cpython3/bin/activate
 pip install -r pyin/requirements_pyco.txt 
-
+```
 
 #### then you can run it like so:
-
-
 fish shell:
 ```
 env PYTHONUNBUFFERED=1 ./pyin/tau2.py   "./pyco_runner.sh --novalgrind  true --nodebug true --oneword false  --profile false   " tests/clean/zzpanla/ldl0     2>&1 | tee runs/(date "+%F-%H-%M-%S") | tee runs/last
