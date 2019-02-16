@@ -17,6 +17,7 @@ https://www.tezos.com/
 https://github.com/odipar/spread/
 https://github.com/unisonweb/unison
 
+AutoNomic originally started as part of project tauchain (http://www.idni.org/), and while Ohad Asor decided to pursue a different formalism (MSOL?), AutoNomic continues with the ideas of FOL + MLTT.
 
 ### pyin/pyco
 the AutoNomic-pyco repo currently serves as a sort of stable branch, while development happens in "univar".
