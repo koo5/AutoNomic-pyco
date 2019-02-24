@@ -54,6 +54,7 @@ pyco will output a trace, point your browser to the pyco_visualization directory
 
 ### semantics
 some notes are here: https://github.com/koo5/n3-dev-testcases
+
 we support two forms of rules, 
 1) with only universal variables
 2) so called AE rules
