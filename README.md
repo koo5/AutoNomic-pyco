@@ -51,3 +51,22 @@ bash:
 ... `date "+%F-%H-%M-%S"` ...
 ```
 pyco will output a trace, point your browser to the pyco_visualization directory and use , and . keys to move around the trace steps
+
+#### semantics
+some notes are here: https://github.com/koo5/n3-dev-testcases
+we support two forms of rules, 
+1) with only universal variables
+2) so called AE rules
+
+On rules with existential variables: Walking the decidability line - https://www.sciencedirect.com/science/article/pii/S0004370211000397
+RDFLog: It's like Datalog for RDF - https://www.cs.ox.ac.uk/publications/publication2719-abstract.html
+
+
+#### learn more
+recent irc logs are at http://loworbit.now.im/logs/AutoNomic.log.txt
+
+introduction to FOL: https://www.coursera.org/learn/logic-introduction/
+
+one starting point for exloring semantics of n3 can be https://github.com/w3c/N3/issues
+
+we have many more resources for anyone curious, so ask around.
