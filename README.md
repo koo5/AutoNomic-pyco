@@ -59,6 +59,7 @@ we support two forms of rules,
 2) so called AE rules
 
 On rules with existential variables: Walking the decidability line - https://www.sciencedirect.com/science/article/pii/S0004370211000397
+
 RDFLog: It's like Datalog for RDF - https://www.cs.ox.ac.uk/publications/publication2719-abstract.html
 
 
